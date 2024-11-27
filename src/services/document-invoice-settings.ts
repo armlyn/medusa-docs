@@ -25,7 +25,7 @@ export default class DocumentInvoiceSettingsService extends TransactionBaseServi
     super(container)
 
     try {
-      this.loggedInUser_ = container.loggedInUser
+      this.loggedInUser_ = container.authenticatedUser
     } catch (e) {
       // avoid errors when backend first runs
     }

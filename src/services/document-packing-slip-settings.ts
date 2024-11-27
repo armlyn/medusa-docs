@@ -25,7 +25,7 @@ export default class DocumentPackingSlipSettingsService extends TransactionBaseS
     super(container)
 
     try {
-      this.loggedInUser_ = container.loggedInUser
+      this.loggedInUser_ = container.authenticatedUser
     } catch (e) {
       // avoid errors when backend first runs
     }
