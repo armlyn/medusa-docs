@@ -1,5 +1,5 @@
 {
-  "name": "@lyn/medusa-docs",
+  "name": "@lynsoluciones/medusa-docs",
   "version": "1.0.1",
   "description": "Medusa plugins to generate docs",
   "main": "dist/index.js",
