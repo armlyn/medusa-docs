@@ -1,5 +1,5 @@
 /*
- * 
+ *
  *
  * MIT License
  *
@@ -10,7 +10,7 @@
  * limitations under the License.
  */
 
-import { Container, Heading, Text } from "@medusajs/ui"
+import { Container, Heading, Text } from "@medusajs/ui";
 import { Grid } from "@mui/material";
 import AddressChangeModal from "../settings/settings-address";
 import LogoChangeModal from "../settings/settings-logo";
@@ -23,47 +23,44 @@ export const SettingsTab = () => {
         <Container>
           <Grid container>
             <Grid item>
-              <Heading level="h1">
-                Store information
-              </Heading>
+              <Heading level="h1">Información de la tienda</Heading>
             </Grid>
             <Grid item>
               <Text size="small">
-                Change information about your store to have it included in generated documents
+                Cambia la información sobre tu tienda para que se incluya en los
+                documentos generados
               </Text>
             </Grid>
           </Grid>
-          <Grid container marginTop={5} direction={'row'} columnSpacing={2}>
+          <Grid container marginTop={5} direction={"row"} columnSpacing={2}>
             <Grid item>
-              <AddressChangeModal/>
+              <AddressChangeModal />
             </Grid>
             <Grid item>
-              <LogoChangeModal/>
+              <LogoChangeModal />
             </Grid>
           </Grid>
         </Container>
       </Grid>
       <Grid item xs={6} md={6} xl={6}>
         <Container>
-          <Grid container direction={'column'}>
+          <Grid container direction={"column"}>
             <Grid item>
-              <Heading level="h1">
-                Invoice
-              </Heading>
+              <Heading level="h1">Factura</Heading>
             </Grid>
             <Grid item>
               <Text size="small">
-                Change settings how invoices are generated
+                Cambiar la configuración de cómo se generan las facturas
               </Text>
             </Grid>
           </Grid>
-          <Grid container marginTop={5} direction={'row'} columnSpacing={2}>
+          <Grid container marginTop={5} direction={"row"} columnSpacing={2}>
             <Grid item>
-              <InvoiceSettingsModal/>
+              <InvoiceSettingsModal />
             </Grid>
           </Grid>
         </Container>
       </Grid>
     </Grid>
-  )
-}
+  );
+};

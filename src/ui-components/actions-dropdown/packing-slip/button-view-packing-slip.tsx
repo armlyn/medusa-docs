@@ -1,5 +1,5 @@
 /*
- * 
+ *
  *
  * MIT License
  *
@@ -10,36 +10,37 @@
  * limitations under the License.
  */
 
-import { DocumentText } from "@medusajs/icons"
-import { Order } from "@medusajs/medusa"
-import { DropdownMenu, toast } from "@medusajs/ui"
+import { DocumentText } from "@medusajs/icons";
+import { Order } from "@medusajs/medusa";
+import { DropdownMenu, toast } from "@medusajs/ui";
 import { useAdminCustomQuery } from "medusa-react";
 import { PackingSlipResult } from "../../types/api";
 
 type AdminGeneratePackingSlipQueryReq = {
-  id: string,
-  includeBuffer: boolean
-}
+  id: string;
+  includeBuffer: boolean;
+};
 
-const ViewPackingSlipDropdownButton = ({ order } : {order : Order}) => {
-
-  const { data, refetch } = useAdminCustomQuery
-    <AdminGeneratePackingSlipQueryReq, PackingSlipResult>(
-      "/packing-slip",
-      [],
-      {
-        id: order.metadata['packing_slip_id'] as string,
-        includeBuffer: true
-      },
-      {
-        enabled: false
-      }
-    )
+const ViewPackingSlipDropdownButton = ({ order }: { order: Order }) => {
+  const { data, refetch } = useAdminCustomQuery<
+    AdminGeneratePackingSlipQueryReq,
+    PackingSlipResult
+  >(
+    "/packing-slip",
+    [],
+    {
+      id: order.metadata["packing_slip_id"] as string,
+      includeBuffer: true,
+    },
+    {
+      enabled: false,
+    }
+  );
   const handleClick = async () => {
-    const id = toast.loading("Packing slip", {
-      description: "Preparing...",
-      duration: Infinity
-    })
+    const id = toast.loading("Albarán", {
+      description: "Preparando...",
+      duration: Infinity,
+    });
     try {
       const result = await refetch();
       if (result.data && result.data.buffer) {
@@ -47,15 +48,15 @@ const ViewPackingSlipDropdownButton = ({ order } : {order : Order}) => {
         openPdf(result.data);
       } else {
         toast.dismiss();
-        toast.error("Packing slip", {
-          description: 'Problem happened when preparing',
-        })
+        toast.error("Albarán", {
+          description: "El problema ocurrió durante la preparación",
+        });
       }
     } catch (error) {
       toast.dismiss();
-      toast.error("Packing slip", {
+      toast.error("Albarán", {
         description: error,
-      })
+      });
     } finally {
       toast.dismiss();
     }
@@ -64,20 +65,24 @@ const ViewPackingSlipDropdownButton = ({ order } : {order : Order}) => {
   const openPdf = (packingSlipResult?: PackingSlipResult) => {
     if (packingSlipResult && packingSlipResult.buffer) {
       const anyBuffer = packingSlipResult.buffer as any;
-      const blob = new Blob([ new Uint8Array(anyBuffer.data)  ], { type : 'application/pdf'});
+      const blob = new Blob([new Uint8Array(anyBuffer.data)], {
+        type: "application/pdf",
+      });
       const pdfURL = URL.createObjectURL(blob);
-      window.open(pdfURL, '_blank');
+      window.open(pdfURL, "_blank");
     }
   };
 
   return (
-    <DropdownMenu.Item className="gap-x-2" 
+    <DropdownMenu.Item
+      className="gap-x-2"
       onClick={handleClick}
-      disabled={(order.metadata['packing_slip_id'] == undefined)}>
+      disabled={order.metadata["packing_slip_id"] == undefined}
+    >
       <DocumentText />
-        View packing slip
+      Ver albarán de entrega
     </DropdownMenu.Item>
-  )
-}
+  );
+};
 
-export default ViewPackingSlipDropdownButton
+export default ViewPackingSlipDropdownButton;

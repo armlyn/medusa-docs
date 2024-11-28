@@ -1,5 +1,5 @@
 /*
- * 
+ *
  *
  * MIT License
  *
@@ -10,66 +10,64 @@
  * limitations under the License.
  */
 
-import { FlyingBox } from "@medusajs/icons"
-import { Order } from "@medusajs/medusa"
-import { DropdownMenu, toast } from "@medusajs/ui"
+import { FlyingBox } from "@medusajs/icons";
+import { Order } from "@medusajs/medusa";
+import { DropdownMenu, toast } from "@medusajs/ui";
 import { useAdminCustomPost } from "medusa-react";
 import { PackingSlipResult } from "../../types/api";
 
 type AdminGeneratePackingSlipPostReq = {
-  orderId: string
-}
+  orderId: string;
+};
 
-const GeneratePackingSlipDropdownButton = ({ order } : {order : Order}) => {
-
+const GeneratePackingSlipDropdownButton = ({ order }: { order: Order }) => {
   const { mutate } = useAdminCustomPost<
     AdminGeneratePackingSlipPostReq,
-    PackingSlipResult  
-  >
-  (
-    `/packing-slip`,
-    ["packing-slip"]
-  )
+    PackingSlipResult
+  >(`/packing-slip`, ["packing-slip"]);
   const generate = () => {
-    const id = toast.loading("Packing slip", {
-      description: "Generating packing slip...",
-      duration: Infinity
-    })
+    const id = toast.loading("Albarán", {
+      description: "Generando albarán...",
+      duration: Infinity,
+    });
     mutate(
       {
-        orderId: order.id
-      }, {
-        onSuccess: ( { response, buffer }) => {
+        orderId: order.id,
+      },
+      {
+        onSuccess: ({ response, buffer }) => {
           if (response.status == 201 && buffer) {
             const anyBuffer = buffer as any;
-            const blob = new Blob([ new Uint8Array(anyBuffer.data)  ], { type : 'application/pdf'});
+            const blob = new Blob([new Uint8Array(anyBuffer.data)], {
+              type: "application/pdf",
+            });
             toast.dismiss();
             const pdfURL = URL.createObjectURL(blob);
-            window.open(pdfURL, '_blank');
+            window.open(pdfURL, "_blank");
           } else {
             toast.dismiss();
-            toast.error("Packing slip", {
-              description: 'Problem happened when generating',
-            })
+            toast.error("Albarán", {
+              description: "El problema ocurrió al generar",
+            });
           }
         },
         onError: (error) => {
           toast.dismiss();
           const trueError = error as any;
-          toast.error("Packing slip", {
+          toast.error("Albarán", {
             description: trueError?.response?.data?.message,
-          })
-        }
+          });
+        },
       }
-    )
+    );
   };
 
   return (
     <DropdownMenu.Item className="gap-x-2" onClick={generate}>
-      <FlyingBox/>
-        Generate new packing slip
+      <FlyingBox />
+      Generar nuevo albarán
     </DropdownMenu.Item>
-  )
-}
+  );
+};
 
-export default GeneratePackingSlipDropdownButton
+export default GeneratePackingSlipDropdownButton;
