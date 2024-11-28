@@ -58,7 +58,7 @@ const DocumentsPage = () => {
 };
 export const config: RouteConfig = {
   link: {
-    label: "Documents",
+    label: "Documentos",
     icon: DocumentText,
   },
 };
