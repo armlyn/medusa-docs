@@ -27,7 +27,7 @@ import { User } from "../models/user"
     }
   
     req.scope.register({
-      loggedInUser: {
+      authenticatedUser: {
         resolve: () => authenticatedUser,
        },
      })

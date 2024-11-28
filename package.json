@@ -1,6 +1,6 @@
 {
   "name": "@lynsoluciones/medusa-docs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Medusa plugins to generate docs",
   "main": "dist/index.js",
   "author": "Lyn Soluciones",
