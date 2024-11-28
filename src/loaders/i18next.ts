@@ -13,16 +13,16 @@ export default async (
   console.info("Starting i18next loader...")
 
   try {
-    const defaultTranslationsPath = path.resolve(__dirname, `../assets/i18n/locales/en/translation.json`);
+    const defaultTranslationsPath = path.resolve(__dirname, `../assets/i18n/locales/es/translation.json`);
     const defaultTranslations = await import(defaultTranslationsPath);
 
     await i18next
       .init({
-        fallbackLng: 'en',
+        fallbackLng: 'es',
         defaultNS: 'translation',
         ns: 'translation',
         resources: {
-          en: {
+          es: {
             translation: defaultTranslations
           }
         }
