@@ -14,13 +14,14 @@ import { Tabs } from "@medusajs/ui";
 import { Box } from "@mui/material";
 import { InvoiceTemplatesTab } from "./templates-invoice-tab";
 import { PackingSlipTemplatesTab } from "./templates-packing-slip-tab";
-
+import { ShippingTab } from "./templates-shipping-tab";
 export const TemplatesTab = () => {
   return (
     <Tabs defaultValue="invoice">
       <Tabs.List>
         <Tabs.Trigger value="invoice">Factura</Tabs.Trigger>
         <Tabs.Trigger value="packing-slip">Albarán</Tabs.Trigger>
+        <Tabs.Trigger value="shipping-tag">Etiqueta de envío</Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value="invoice">
         <Box height={20}></Box>
@@ -29,6 +30,10 @@ export const TemplatesTab = () => {
       <Tabs.Content value="packing-slip">
         <Box height={20}></Box>
         <PackingSlipTemplatesTab />
+      </Tabs.Content>
+      <Tabs.Content value="shipping-tag">
+        <Box height={20}></Box>
+        <ShippingTab />
       </Tabs.Content>
     </Tabs>
   );
