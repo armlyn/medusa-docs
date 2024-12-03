@@ -12,28 +12,28 @@ import { Grid, CircularProgress } from "@mui/material";
 import { useAdminCustomQuery, useAdminCustomPost } from "medusa-react";
 
 import {
-  AdminStoreDocumentShippingTabSettingsQueryReq,
-  ShippingTabResult,
-  StoreDocumentShippingTabSettingsResult,
+  AdminStoreDocumentShippingTagSettingsQueryReq,
+  ShippingTagResult,
+  StoreDocumentShippingTagSettingsResult,
 } from "../../types/api";
-enum ShippingTabTemplateKind {
+enum ShippingTagTemplateKind {
   BASIC = "BASIC",
   BASIC_A7 = "BASIC_A7",
 }
 
-type AdminGenerateShippingTabQueryReq = {
-  template: ShippingTabTemplateKind;
+type AdminGenerateShippingTagQueryReq = {
+  template: ShippingTagTemplateKind;
 };
 
-const ViewExampleShippingTab = ({
+const ViewExampleShippingTagTab = ({
   kind,
 }: {
-  kind: ShippingTabTemplateKind;
+  kind: ShippingTagTemplateKind;
 }) => {
   const { data, isLoading, isError, error } = useAdminCustomQuery<
-    AdminGenerateShippingTabQueryReq,
-    ShippingTabResult
-  >(`/shipping-tab/generate`, ["shipping-tab"], {
+    AdminGenerateShippingTagQueryReq,
+    ShippingTagResult
+  >(`/shipping-tag/generate`, ["shipping-tag"], {
     template: kind,
   });
 
@@ -69,13 +69,13 @@ const ViewExampleShippingTab = ({
 };
 
 type ChooseTemplateProps = {
-  lastKind: ShippingTabTemplateKind;
-  setKind: (kind: ShippingTabTemplateKind) => void;
+  lastKind: ShippingTagTemplateKind;
+  setKind: (kind: ShippingTagTemplateKind) => void;
 };
 
 const ChooseTemplate = (props: ChooseTemplateProps) => {
   const handleChange = (checked: string) => {
-    props.setKind(checked as ShippingTabTemplateKind);
+    props.setKind(checked as ShippingTagTemplateKind);
   };
 
   return (
@@ -85,8 +85,8 @@ const ChooseTemplate = (props: ChooseTemplateProps) => {
     >
       <div className="flex items-center gap-x-3">
         <RadioGroup.Item
-          value={ShippingTabTemplateKind.BASIC.toString()}
-          id={ShippingTabTemplateKind.BASIC.toString()}
+          value={ShippingTagTemplateKind.BASIC.toString()}
+          id={ShippingTagTemplateKind.BASIC.toString()}
         />
         <Label htmlFor="radio_1" weight="plus">
           Básico
@@ -94,8 +94,8 @@ const ChooseTemplate = (props: ChooseTemplateProps) => {
       </div>
       <div className="flex items-center gap-x-3">
         <RadioGroup.Item
-          value={ShippingTabTemplateKind.BASIC_A7.toString()}
-          id={ShippingTabTemplateKind.BASIC_A7.toString()}
+          value={ShippingTagTemplateKind.BASIC_A7.toString()}
+          id={ShippingTagTemplateKind.BASIC_A7.toString()}
         />
         <Label htmlFor="radio_2" weight="plus">
           Básico A7
@@ -105,32 +105,32 @@ const ChooseTemplate = (props: ChooseTemplateProps) => {
   );
 };
 
-type AdminShippingTabTemplatePostReq = {
-  shippingTabTemplate: ShippingTabTemplateKind;
+type AdminShippingTagTemplatePostReq = {
+  shippingTagTemplate: ShippingTagTemplateKind;
 };
 
-const ShippingTabContent = ({
+const ShippingTagTabContent = ({
   lastKind,
 }: {
-  lastKind?: ShippingTabTemplateKind;
+  lastKind?: ShippingTagTemplateKind;
 }) => {
-  const [templateKind, setTemplateKind] = useState<ShippingTabTemplateKind>(
+  const [templateKind, setTemplateKind] = useState<ShippingTagTemplateKind>(
     lastKind !== undefined && lastKind !== null
       ? lastKind
-      : ShippingTabTemplateKind.BASIC
+      : ShippingTagTemplateKind.BASIC
   );
 
   const { mutate } = useAdminCustomPost<
-    AdminShippingTabTemplatePostReq,
-    StoreDocumentShippingTabSettingsResult
-  >(`/document-shipping-tab-settings/shipping-tab-template`, [
-    "document-shipping-tab-settings",
+    AdminShippingTagTemplatePostReq,
+    StoreDocumentShippingTagSettingsResult
+  >(`/document-shipping-tag-settings/shipping-tab-template`, [
+    "document-shipping-tag-settings",
   ]);
 
   const onSubmit = () => {
     return mutate(
       {
-        shippingTabTemplate: templateKind,
+        shippingTagTemplate: templateKind,
       },
       {
         onSuccess: async ({ response, settings }) => {
@@ -185,23 +185,23 @@ const ShippingTabContent = ({
         </Grid>
       </Grid>
       <Grid item xs={6} md={6} xl={6}>
-        <ViewExampleShippingTab kind={templateKind} />
+        <ViewExampleShippingTagTab kind={templateKind} />
       </Grid>
     </Grid>
   );
 };
 
-export const ShippingTab = () => {
+export const ShippingTagTab = () => {
   const { data, isLoading } = useAdminCustomQuery<
-    AdminStoreDocumentShippingTabSettingsQueryReq,
-    StoreDocumentShippingTabSettingsResult
-  >("/document-shipping-tab-settings", ["shipping-tab-settings"], {});
+    AdminStoreDocumentShippingTagSettingsQueryReq,
+    StoreDocumentShippingTagSettingsResult
+  >("/document-shipping-tag-settings", ["shipping-tag-settings"], {});
 
   if (isLoading) {
     return <CircularProgress size={12} />;
   }
 
   return (
-    <ShippingTabContent lastKind={data?.settings?.shipping_tab_template} />
+    <ShippingTagTabContent lastKind={data?.settings?.shipping_tab_template} />
   );
 };

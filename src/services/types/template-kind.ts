@@ -1,5 +1,5 @@
 /*
- * 
+ *
  *
  * MIT License
  *
@@ -11,11 +11,15 @@
  */
 
 export enum InvoiceTemplateKind {
-  BASIC = 'BASIC',
-  BASIC_LOGO = 'BASIC_LOGO'
+  BASIC = "BASIC",
+  BASIC_LOGO = "BASIC_LOGO",
 }
 
 export enum PackingSlipTemplateKind {
-  BASIC = 'BASIC',
-  BASIC_SMALL = 'BASIC_SMALL'
+  BASIC = "BASIC",
+  BASIC_SMALL = "BASIC_SMALL",
+}
+export enum ShippingTagTemplateKind {
+  BASIC = "BASIC",
+  BASIC_A7 = "BASIC_A7",
 }

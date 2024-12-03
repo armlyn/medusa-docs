@@ -14,6 +14,7 @@ import { Address } from "@medusajs/medusa";
 import { InvoiceTemplateKind, PackingSlipTemplateKind } from "./template-kind";
 import { Invoice } from "./invoice";
 import { PackingSlip } from "./packing-slip";
+import { ShippingTag } from "./shipping-tag";
 
 export type DocumentAddress = Omit<Address, "customer" | "country">;
 
@@ -76,13 +77,14 @@ export type PackingSlipResult = {
   packingSlip?: PackingSlip;
   buffer?: Buffer;
 };
-export type AdminStoreDocumentShippingTabSettingsQueryReq = {};
+export type AdminStoreDocumentShippingTagSettingsQueryReq = {};
 
-export type ShippingTabResult = {
+export type ShippingTagResult = {
+  shippingTag?: ShippingTag;
   buffer: Buffer;
 };
 
-export type StoreDocumentShippingTabSettingsResult = {
+export type StoreDocumentShippingTagSettingsResult = {
   settings: any;
   response: any;
 };

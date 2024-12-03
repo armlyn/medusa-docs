@@ -14,7 +14,7 @@ import { Tabs } from "@medusajs/ui";
 import { Box } from "@mui/material";
 import { InvoiceTemplatesTab } from "./templates-invoice-tab";
 import { PackingSlipTemplatesTab } from "./templates-packing-slip-tab";
-import { ShippingTab } from "./templates-shipping-tab";
+import { ShippingTagTab } from "./templates-shipping-tab";
 export const TemplatesTab = () => {
   return (
     <Tabs defaultValue="invoice">
@@ -33,7 +33,7 @@ export const TemplatesTab = () => {
       </Tabs.Content>
       <Tabs.Content value="shipping-tag">
         <Box height={20}></Box>
-        <ShippingTab />
+        <ShippingTagTab />
       </Tabs.Content>
     </Tabs>
   );
