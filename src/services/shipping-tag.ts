@@ -1,6 +1,6 @@
-// Implementar el `DocumentShippingTagSettingsService`.
-// Crear la función `generateShippingTag` y `validateInputForProvidedKind` en un archivo separado.
-// Definir las constantes necesarias como `SHIPPING_TAG_NUMBER_PLACEHOLDER`.
+// // Implementar el `DocumentShippingTagSettingsService`.
+// // Crear la función `generateShippingTag` y `validateInputForProvidedKind` en un archivo separado.
+// // Definir las constantes necesarias como `SHIPPING_TAG_NUMBER_PLACEHOLDER`.
 
 // import { Address, TransactionBaseService, setMetadata } from "@medusajs/medusa";
 // import { Order, OrderService } from "@medusajs/medusa";
