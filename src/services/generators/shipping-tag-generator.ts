@@ -1,46 +1,29 @@
 import { Order } from "@medusajs/medusa";
 import { MedusaError } from "@medusajs/utils";
 import { DocumentSettings } from "../../models/document-settings";
-import { ShippingTag } from "../../models/shipping-tag";
-import { ShippingTagTemplateKind } from "../types/template-kind";
 import PDFDocument from "pdfkit";
+import { Invoice } from "../../models/invoice";
 
-export function validateInputForProvidedKind(
-  kind: ShippingTagTemplateKind,
+export function validateDocumentSettings(
   documentSettings: DocumentSettings
 ): [boolean, string] {
-  switch (kind) {
-    case ShippingTagTemplateKind.BASIC:
-    case ShippingTagTemplateKind.BASIC_A7:
-      if (!documentSettings.store_address) {
-        return [
-          false,
-          "Store address is required for basic shipping tag template",
-        ];
-      }
-      break;
-    default:
-      return [false, "Unknown shipping tag template kind"];
+  if (!documentSettings.store_address) {
+    return [false, "Store address is required to generate a shipping tag"];
   }
   return [true, ""];
 }
 
 export async function generateShippingTag(
-  kind: ShippingTagTemplateKind,
   documentSettings: DocumentSettings,
-  shippingTag: ShippingTag,
+  resultInvoice: Invoice,
   order: Order
 ): Promise<Buffer> {
-  const [isValid, errorMessage] = validateInputForProvidedKind(
-    kind,
-    documentSettings
-  );
+  const [isValid, errorMessage] = validateDocumentSettings(documentSettings);
   if (!isValid) {
     throw new MedusaError(MedusaError.Types.INVALID_DATA, errorMessage);
   }
 
-  const pageSize = kind === ShippingTagTemplateKind.BASIC_A7 ? "A7" : "A6";
-  const doc = new PDFDocument({ size: pageSize, margin: 10 });
+  const doc = new PDFDocument({ size: "A6", margin: 10 });
   const chunks: Buffer[] = [];
 
   doc.on("data", (chunk) => chunks.push(chunk));
@@ -52,13 +35,13 @@ export async function generateShippingTag(
   // Shipping Tag Number
   doc
     .fontSize(10)
-    .text(`Tag #: ${shippingTag.display_number}`, { align: "right" });
+    .text(`Tag #: ${resultInvoice.display_number}`, { align: "right" });
   doc.moveDown();
 
   // From Address (Store Address)
   doc.fontSize(8).text("From:", { continued: true }).fontSize(10);
   if (documentSettings.store_address) {
-    doc.text(` ${documentSettings.store_address.address_1}`);
+    doc.text(`${documentSettings.store_address.address_1}`);
     if (documentSettings.store_address.address_2) {
       doc.text(documentSettings.store_address.address_2);
     }
@@ -72,7 +55,7 @@ export async function generateShippingTag(
   doc.fontSize(8).text("To:", { continued: true }).fontSize(10);
   if (order.shipping_address) {
     doc.text(
-      ` ${order.shipping_address.first_name} ${order.shipping_address.last_name}`
+      `${order.shipping_address.first_name} ${order.shipping_address.last_name}`
     );
     doc.text(order.shipping_address.address_1);
     if (order.shipping_address.address_2) {
@@ -92,17 +75,12 @@ export async function generateShippingTag(
     .fontSize(8)
     .text("Order ID:", { continued: true })
     .fontSize(10)
-    .text(` ${order.id}`);
+    .text(`${order.id}`);
   doc
     .fontSize(8)
     .text("Order Date:", { continued: true })
     .fontSize(10)
-    .text(` ${order.created_at.toLocaleDateString()}`);
-
-  // Adjust font sizes for A7 if necessary
-  if (kind === ShippingTagTemplateKind.BASIC_A7) {
-    doc.fontSize(6);
-  }
+    .text(`${order.created_at.toLocaleDateString()}`);
 
   doc.end();
 

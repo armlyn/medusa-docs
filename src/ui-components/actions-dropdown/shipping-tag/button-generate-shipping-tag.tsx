@@ -2,17 +2,18 @@ import { FlyingBox } from "@medusajs/icons";
 import { Order } from "@medusajs/medusa";
 import { DropdownMenu, toast } from "@medusajs/ui";
 import { useAdminCustomPost } from "medusa-react";
-import { ShippingTagResult } from "../../types/api";
+import { InvoiceResult } from "../../types/api";
 
-type AdminGenerateShippingTagPostReq = {
+type AdminGenerateInvoicePostReq = {
   orderId: string;
+  isShippingTag?: boolean;
 };
 
 const GenerateShippingTagDropdownButton = ({ order }: { order: Order }) => {
   const { mutate } = useAdminCustomPost<
-    AdminGenerateShippingTagPostReq,
-    ShippingTagResult
-  >(`/shipping-tag`, ["shipping-tag"]);
+    AdminGenerateInvoicePostReq,
+    InvoiceResult
+  >(`/invoice`, ["invoice"]);
 
   const generate = () => {
     const id = toast.loading("Etiqueta de envío", {
@@ -22,6 +23,7 @@ const GenerateShippingTagDropdownButton = ({ order }: { order: Order }) => {
     mutate(
       {
         orderId: order.id,
+        isShippingTag: true, // Indicador para el backend
       },
       {
         onSuccess: ({ response, buffer }) => {
@@ -30,18 +32,18 @@ const GenerateShippingTagDropdownButton = ({ order }: { order: Order }) => {
             const blob = new Blob([new Uint8Array(anyBuffer.data)], {
               type: "application/pdf",
             });
-            toast.dismiss();
+            toast.dismiss(id);
             const pdfURL = URL.createObjectURL(blob);
             window.open(pdfURL, "_blank");
           } else {
-            toast.dismiss();
+            toast.dismiss(id);
             toast.error("Etiqueta de envío", {
               description: "Problema ocurrido al generar etiqueta de envío",
             });
           }
         },
         onError: (error) => {
-          toast.dismiss();
+          toast.dismiss(id);
           const trueError = error as any;
           toast.error("Etiqueta de envío", {
             description: trueError?.response?.data?.message,
