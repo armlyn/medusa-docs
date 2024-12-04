@@ -13,7 +13,7 @@
 import { Address } from "@medusajs/medusa";
 import { Invoice } from "../../models/invoice";
 import { PackingSlip } from "../../models/packing-slip";
-
+import { ShippingTag } from "../../models/shipping-tag";
 export type DocumentAddress = Omit<Address, "customer" | "country">;
 
 export type InvoiceResult = {
@@ -26,6 +26,6 @@ export type PackingSlipResult = {
   buffer?: Buffer;
 };
 export type ShippingTagResult = {
-  invoice?: Invoice;
+  shippingTag?: ShippingTag;
   buffer?: Buffer;
 };

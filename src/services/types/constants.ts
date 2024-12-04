@@ -1,5 +1,5 @@
 /*
- * 
+ *
  *
  * MIT License
  *
@@ -12,3 +12,4 @@
 
 export const INVOICE_NUMBER_PLACEHOLDER = `{invoice_number}`;
 export const PACKING_SLIP_NUMBER_PLACEHOLDER = `{packing_slip_number}`;
+export const SHIPPING_TAG_NUMBER_PLACEHOLDER = `{shipping_tag_number}`;
