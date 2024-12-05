@@ -5,6 +5,8 @@ import GenerateInvoiceDropdownButton from "./invoice/button-generate-invoice";
 import ViewInvoiceDropdownButton from "./invoice/button-view-invoice";
 import ViewPackingSlipDropdownButton from "./packing-slip/button-view-packing-slip";
 import GeneratePackingSlipDropdownButton from "./packing-slip/button-generate-packing-slip";
+import ViewShippingTagDropdownButton from "./shipping-tag/button-view-shipping-tag";
+import GenerateShippingTagDropdownButton from "./shipping-tag/button-generate-shipping-tag";
 
 export function ActionsDropdown({order} : {order: Order}) {
   return (
@@ -21,6 +23,9 @@ export function ActionsDropdown({order} : {order: Order}) {
         <DropdownMenu.Separator />
         {order && order.metadata && order.metadata['packing_slip_id'] && <ViewPackingSlipDropdownButton order={order}/>}
         <GeneratePackingSlipDropdownButton order={order}/>
+        <DropdownMenu.Separator />
+          {order && order.metadata && order.metadata['shipping_tag_id'] && <ViewShippingTagDropdownButton order={order} />}
+          <GenerateShippingTagDropdownButton order={order} />
       </DropdownMenu.Content>
     </DropdownMenu>
     </>

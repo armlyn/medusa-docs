@@ -19,3 +19,8 @@ export enum PackingSlipTemplateKind {
   BASIC = 'BASIC',
   BASIC_SMALL = 'BASIC_SMALL'
 }
+
+export enum ShippingTagTemplateKind {
+  BASIC = 'BASIC',
+  BASIC_SMALL = 'BASIC_SMALL'
+}

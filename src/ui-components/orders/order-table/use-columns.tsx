@@ -8,6 +8,7 @@ import { Grid } from "@mui/material";
 import { ActionsDropdown } from "../../actions-dropdown/actions-dropdown";
 import InvoiceNumberFromOrder from "./invoice-number-from-order";
 import PackingSlipNumber from "./packing-slip-number";
+import ShippingTagNumber from "./shipping-tag-number";
 import { ExclamationCircle, InformationCircle } from "@medusajs/icons";
 import Link from "@mui/material/Link";
 
@@ -171,34 +172,6 @@ const useOrderTableColums = () => {
           </div>
         ),
       },
-      // {
-      //   Header: "",
-      //   accessor: "currency_code",
-      //   Cell: ({ cell: { value } }) => (
-      //     <div className="text-grey-40 text-right">{value.toUpperCase()}</div>
-      //   ),
-      // },
-      // {
-      //   Header: "",
-      //   accessor: "country_code",
-      //   Cell: ({ row }) => (
-      //     <div className="pr-2">
-      //       <div className="rounded-rounded flex w-full justify-end">
-      //         <Tooltip
-      //           content={
-      //             row.original.shipping_address?.country_code?.toUpperCase()
-      //           }
-      //         >
-      //           <ReactCountryFlag
-      //             className={"rounded"}
-      //             svg
-      //             countryCode={row.original.shipping_address?.country_code}
-      //           />
-      //         </Tooltip>
-      //       </div>
-      //     </div>
-      //   ),
-      // },
       {
         Header: () => <div style={{ textAlign: "center" }}>{"Documents"}</div>,
         id: "invoice_number",
@@ -222,6 +195,13 @@ const useOrderTableColums = () => {
                   <Grid item>
                     <PackingSlipNumber
                       packingSlipId={row.original.metadata["packing_slip_id"]}
+                    />
+                  </Grid>
+                )}
+                {row.original.metadata["shipping_tag_id"] !== undefined && (
+                  <Grid item>
+                    <ShippingTagNumber
+                      shippingTagId={row.original.metadata["shipping_tag_id"]}
                     />
                   </Grid>
                 )}
