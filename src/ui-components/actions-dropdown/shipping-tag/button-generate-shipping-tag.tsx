@@ -23,7 +23,7 @@ const GenerateShippingTagDropdownButton = ({ order }: { order: Order }) => {
     mutate(
       {
         orderId: order.id,
-        isShippingTag: true, // Indicador para el backend
+        isShippingTag: true,
       },
       {
         onSuccess: ({ response, buffer }) => {
